@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'styles.dart';
 
-class CustomTextField extends StatelessWidget {
-  const CustomTextField({
+class CustomTextField extends StatelessWidget with Styles {
+  CustomTextField({
     super.key,
     required this.controller_,
     required this.isPassword_,
@@ -18,6 +19,19 @@ class CustomTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      margin: horizontalMargin,
+      child: TextFormField(
+        obscureText: (isPassword_) ? true : false,
+        controller: controller_,
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return error_;
+          }
+          return null;
+        },
+        decoration: fieldStyle(hintText_, labelText_),
+      ),
+    );
   }
 }

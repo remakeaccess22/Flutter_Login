@@ -12,12 +12,7 @@ class Formpage extends StatefulWidget {
 class _FormpageState extends State<Formpage> {
   final _formKey = GlobalKey<FormState>();
   final txtController = TextEditingController();
-
-  // Define the missing variables
-  bool isPassword_ = true;
-  String error_ = 'Please enter some text';
-  String hintText_ = 'Enter your password';
-  String labelText_ = 'Password';
+  final txtController1 = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -25,37 +20,48 @@ class _FormpageState extends State<Formpage> {
       appBar: AppBar(
         title: const Text('Form Validation'),
       ),
-      body: Form(
-        key: _formKey,
-        child: Center(
-            child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 30),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text('Sign In'),
-              CustomTextField(
-                controller_: txtController,
-                isPassword_: isPassword_,
-                error_: error_,
-                hintText_: hintText_,
-                labelText_: labelText_,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  var input = txtController.text;
-                  if (_formKey.currentState!.validate()) {
-                    // Perform the desired action
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('You Entered $input')),
-                    );
-                  }
-                },
-                child: const Text('Submit'),
-              ),
-            ],
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  'Sign In',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+                CustomTextField(
+                  controller_: txtController,
+                  isPassword_: false,
+                  error_: 'The username must not be empty!',
+                  hintText_: 'Enter your username',
+                  labelText_: 'USERNAME',
+                ),
+                const SizedBox(height: 16.0),
+                CustomTextField(
+                  controller_: txtController1,
+                  isPassword_: true,
+                  error_: 'The password must not be empty!',
+                  hintText_: 'Enter your password',
+                  labelText_: 'PASSWORD',
+                ),
+                const SizedBox(height: 16.0),
+                CustomButton(
+                  btnText_: 'Login',
+                  onPressed_: () {
+                    var input = txtController.text;
+                    if (_formKey.currentState!.validate()) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('You entered $input')));
+                    }
+                  },
+                ),
+              ],
+            ),
           ),
-        )),
+        ),
       ),
     );
   }
